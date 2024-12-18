@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Adviento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f2;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Courier New', Courier, monospace;
+            color: #ff69b4;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .day {
+            background-color: #ffb6c1;
+            border: 2px solid #ff69b4;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .day:hover {
+            background-color: #ffa6c9;
+        }
+        .day button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .day button:hover {
+            background-color: #ff1493;
+        }
+        .phrase {
+            display: none;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #c71585;
+        }
+        .day.revealed .phrase {
+            display: block;
+        }
+        .day.revealed button {
+            display: none;
+        }
+        .day.revealed {
+            transform: scale(1.1);
+        }
+        @media (max-width: 600px) {
+            .day {
+                padding: 15px;
+            }
+            .day button {
+                font-size: 12px;
+            }
+            .phrase {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Calendario de Adviento</h1>
+    <p>Haz clic en un día para revelar la sorpresa</p>
+
+    <div class="calendar">
+        <!-- Días del calendario generados dinámicamente -->
+    </div>
+
+    <script>
+        const phrases = [
+            "Eres mi primer pensamiento al despertar y mi último al dormir.",
+            "Tu sonrisa ilumina mis días.",
+            "Eres el regalo más hermoso que la vida me ha dado.",
+            "Amo cada instante que compartimos juntos.",
+            "Eres la razón de mi felicidad.",
+            "Mi amor por ti crece cada día más.",
+            "Tu risa es la melodía que llena mi corazón.",
+            "No importa dónde esté, siempre pienso en ti.",
+            "Eres mi refugio y mi mayor aventura.",
+            "Mi vida es mejor porque estás en ella.",
+            "Eres mi sueño hecho realidad.",
+            "Cada momento contigo es un tesoro.",
+            "Tu amor es el motor que impulsa mi corazón.",
+            "Eres mi hoy, mi mañana y mi siempre.",
+            "No hay nada más dulce que amarte.",
+            "Contigo, todos los días son especiales.",
+            "Eres mi estrella en los días oscuros.",
+            "Tu amor llena mi mundo de colores.",
+            "Eres el capítulo más hermoso de mi historia.",
+            "Tu abrazo es mi lugar favorito.",
+            "No necesito nada más que tu amor para ser feliz.",
+            "Eres el poema que nunca termina.",
+            "A tu lado, todo es posible.",
+            "Eres mi razón para creer en el amor verdadero.",
+            "Tu mirada me hace sentir invencible.",
+            "Eres mi puerto seguro.",
+            "Cada día contigo es un regalo único.",
+            "Tu amor es mi mayor bendición.",
+            "Eres mi persona favorita en el mundo.",
+            "Gracias por llenar mi vida de amor.",
+            "Te amo más allá de las palabras."
+        ];
+
+        const calendar = document.querySelector('.calendar');
+
+        phrases.forEach((phrase, index) => {
+            const dayDiv = document.createElement('div');
+            dayDiv.classList.add('day');
+
+            const button = document.createElement('button');
+            const date = new Date(2024, 11, index + 1); // Diciembre de 2024
+            button.textContent = `${date.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', year: 'numeric' })}`;
+
+            const phraseDiv = document.createElement('div');
+            phraseDiv.classList.add('phrase');
+            phraseDiv.textContent = phrase;
+
+            button.addEventListener('click', () => {
+                if (!dayDiv.classList.contains('revealed')) { // Asegura que solo se revele una vez
+                    dayDiv.classList.add('revealed');
+                    phraseDiv.style.display = 'block'; // Muestra la frase
+
+                    if (index === 30) { // Día 31 (índice 30)
+                        const linkButton = document.createElement('a');
+                        linkButton.href = 'new.html'; // Enlace a la otra página
+                        linkButton.textContent = 'Dame clic';
+                        linkButton.style.cssText = `
+                            display: inline-block;
+                            margin-top: 10px;
+                            padding: 10px 20px;
+                            background-color: #ff69b4;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            font-size: 16px;
+                        `;
+                        linkButton.addEventListener('mouseover', () => {
+                            linkButton.style.backgroundColor = '#ff1493';
+                        });
+                        linkButton.addEventListener('mouseout', () => {
+                            linkButton.style.backgroundColor = '#ff69b4';
+                        });
+                        phraseDiv.appendChild(linkButton); // Agrega el botón a la frase
+                    }
+                }
+            });
+
+            dayDiv.appendChild(button);
+            dayDiv.appendChild(phraseDiv);
+            calendar.appendChild(dayDiv);
+        });
+    </script>
+</body>
+</html>

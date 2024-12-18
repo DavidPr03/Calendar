@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja de Mensajes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fef7f9;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #d14785;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: 80%;
+            max-width: 500px;
+            height: 100px;
+            padding: 10px;
+            border: 2px solid #d14785;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            resize: none;
+        }
+        button {
+            background-color: #d14785;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #a23467;
+        }
+        .messages {
+            max-width: 800px;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .message-card {
+            background-color: #fff0f6;
+            border: 2px solid #d14785;
+            border-radius: 10px;
+            padding: 15px;
+            max-width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .message-card:hover {
+            transform: scale(1.05);
+        }
+        .message-text {
+            font-size: 1rem;
+            color: #d14785;
+            margin-bottom: 10px;
+        }
+        .delete-btn {
+            background-color: #ff6666;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .delete-btn:hover {
+            background-color: #cc3333;
+        }
+        .unlock-notification {
+            display: none;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: white;
+            background-color: #d14785;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .unlock-notification:hover {
+            background-color: #a23467;
+        }
+        .surprise-message {
+            display: none;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #d14785;
+            background-color: #fff0f6;
+            border: 2px solid #d14785;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Crea tu Caja de Mensajes</h1>
+    <p>Escribe un mensaje especial y guárdalo en la caja.</p>
+    <textarea id="messageInput" placeholder="Escribe tu mensaje aquí..."></textarea><br>
+    <button id="addMessageBtn">Añadir Mensaje</button>
+
+    <div class="messages" id="messagesContainer"></div>
+
+    <div class="unlock-notification" id="unlockNotification">
+        🎉 ¡Se desbloqueó algo especial! Haz clic aquí para verlo.
+    </div>
+
+    <div class="surprise-message" id="surpriseMessage">
+        Lo que siento por ti es de otro planeta, no tengo superpoderes ni magia, pero tengo algo mejor: un corazón que late por ti. 
+        <strong>Te prometo que este anillo se convertirá en un futuro no muy lejano en uno de compromiso para después convertirlo en uno de casados.</strong>
+    </div>
+
+    <script>
+        const messageInput = document.getElementById('messageInput');
+        const addMessageBtn = document.getElementById('addMessageBtn');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const unlockNotification = document.getElementById('unlockNotification');
+        const surpriseMessage = document.getElementById('surpriseMessage');
+        let messageCount = 0;
+
+        addMessageBtn.addEventListener('click', () => {
+            const messageText = messageInput.value.trim();
+
+            if (messageText === '') {
+                alert('Por favor, escribe un mensaje antes de añadirlo.');
+                return;
+            }
+
+            const messageCard = document.createElement('div');
+            messageCard.classList.add('message-card');
+
+            const messageContent = document.createElement('div');
+            messageContent.classList.add('message-text');
+            messageContent.textContent = messageText;
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('delete-btn');
+            deleteBtn.textContent = 'Eliminar';
+            deleteBtn.addEventListener('click', () => {
+                messageCard.remove();
+                messageCount--;
+                if (messageCount < 3) {
+                    unlockNotification.style.display = 'none';
+                }
+            });
+
+            messageCard.appendChild(messageContent);
+            messageCard.appendChild(deleteBtn);
+            messagesContainer.appendChild(messageCard);
+
+            messageInput.value = '';
+            messageCount++;
+
+            if (messageCount === 3) {
+                unlockNotification.style.display = 'block';
+            }
+        });
+
+        unlockNotification.addEventListener('click', () => {
+            unlockNotification.style.display = 'none';
+            surpriseMessage.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
